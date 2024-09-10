@@ -1,8 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-
-import fetch from 'node-fetch';
-import { JSDOM } from 'jsdom';
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+const { JSDOM } = require('jsdom');
 
 /**
  * Function to retrieve movies data for a specific year from JSON files in a directory
@@ -11,7 +10,7 @@ import { JSDOM } from 'jsdom';
  * @param {string} type - The type to match against file names
  * @returns {object[]} - Array of movies for the specified year
  */
-export const getMoviesByYear = (year, type) => {
+const getMoviesByYear = (year, type) => {
     try {
         // Directory containing the JSON files
         const directoryPath = path.resolve('update'); // Ensure the path is resolved correctly
@@ -45,8 +44,7 @@ export const getMoviesByYear = (year, type) => {
     }
 };
 
-
-export const getmovieFile = async (category, year, title) => {
+const getmovieFile = async (category, year, title) => {
     try {
         // Directory containing the JSON files
         const directoryPath = path.resolve('update'); // Ensure the path is resolved correctly
@@ -71,9 +69,8 @@ export const getmovieFile = async (category, year, title) => {
             const movie = moviesForYear.find(movie => movie.url.toLowerCase() === title.toLowerCase());
 
             if (movie) {
-
-             const file =   await fetchmovieFile(movie.link);
-// Example usage
+                const file = await fetchmovieFile(movie.link);
+                // Example usage
                 const firstSegment = getBaseUrl(movie.link);  
                 movie.link = `${firstSegment}/${file[0].link}`;
 
@@ -92,11 +89,7 @@ export const getmovieFile = async (category, year, title) => {
     }
 };
 
-
-
-
-
-async function fetchmovieFile(url) {
+const fetchmovieFile = async (url) => {
     try {
         // Fetch HTML content from the remote server
         const response = await fetch(url);
@@ -123,7 +116,7 @@ async function fetchmovieFile(url) {
             // Find the 'img' tag within 'td.fb-i' of this row
             const imgElement = row.querySelector('td.fb-i img');
             
-            // Check if the 'img' tag exists and its 'alt' attribute is 'folder'
+            // Check if the 'img' tag exists and its 'alt' attribute is 'file'
             if (imgElement && imgElement.alt === 'file') {
                 // Find the 'a' tag within 'td.fb-n' of this row
                 const linkElement = row.querySelector('td.fb-n a');
@@ -132,7 +125,7 @@ async function fetchmovieFile(url) {
                     // Extract the 'href' attribute and inner HTML
                     const link = linkElement.href;                    
                     // Store the result
-                    links.push({link:link});
+                    links.push({link: link});
                 }
             }
         });
@@ -143,12 +136,9 @@ async function fetchmovieFile(url) {
         console.error(`Error fetching movie list for :`, error);
         return [];
     }
-}
+};
 
-
-
-
-function getBaseUrl(fullUrl) {
+const getBaseUrl = (fullUrl) => {
     try {
         // Create a URL object
         const urlObj = new URL(fullUrl);
@@ -161,12 +151,9 @@ function getBaseUrl(fullUrl) {
         console.error('Error extracting base URL:', error);
         return null;
     }
-}
+};
 
-
-
-
-export const searchMoviesAlgorithm_1 = (type, searchQuery) => {
+const searchMoviesAlgorithm_1 = (type, searchQuery) => {
     try {
         // Directory containing the JSON files
         const directoryPath = path.resolve('update'); // Ensure the path is resolved correctly
@@ -238,9 +225,7 @@ export const searchMoviesAlgorithm_1 = (type, searchQuery) => {
     }
 };
 
-
-
-export const searchMovies = (type, searchQuery) => {
+const searchMovies = (type, searchQuery) => {
     try {
         // Directory containing the JSON files
         const directoryPath = path.resolve('update'); // Ensure the path is resolved correctly
@@ -325,4 +310,11 @@ export const searchMovies = (type, searchQuery) => {
         console.error('Error loading JSON files:', error);
         return []; // Return an empty array on error
     }
+};
+
+module.exports = {
+    getMoviesByYear,
+    getmovieFile,
+    searchMoviesAlgorithm_1,
+    searchMovies
 };
