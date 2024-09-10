@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Express server for serving the API and static files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"  // Command to start the server
+  },
+  "dependencies": {
+    "express": "^4.19.2",  // Core Express framework
+    "cors": "^2.8.5",      // For handling Cross-Origin Resource Sharing (CORS)
+    "jsdom": "^25.0.0",    // For working with DOM in server-side code
+    "node-fetch": "^3.3.2" // For making HTTP requests in server-side code
+  },
+  "engines": {
+    "node": ">=18.0.0"     // Specify the minimum Node.js version required (latest LTS or stable)
+  }
+}
